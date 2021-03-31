@@ -1,0 +1,20 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<div id="signup">
+    <h1>Signup</h1>
+    <form action="/api/signup" method="POST">
+        <p>Name : </p>
+        <input type="text" name="name" id="name">
+        <p>Email :</p>
+        <input type="text" name="email" id="email">
+        <p>Password : </p>
+        <input type="text" name="password" id="password">
+        <button>Submit</button>
+    </form>
+</div>
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->

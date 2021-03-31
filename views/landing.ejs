@@ -1,0 +1,24 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+    <h1 style="height: 10%;">Hello <%= name %>!!!! Welcome to ChatCord</h1>
+
+    <div id="onlineUsers">
+        <h1>User Online</h1>
+        <ul id="userslist"> 
+            
+        </ul>
+    </div>
+    <div id="chatMenu">
+
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/index.js"></script>
+    
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->

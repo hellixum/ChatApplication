@@ -1,0 +1,18 @@
+<!-- include header -->
+<%- include('include/_header') %>
+<!-- /include header -->
+
+<div id="login">
+    <h1>Login</h1>
+    <form action="/api/login" method="POST">
+        <p>Username :</p>
+        <input type="text" name="name" id="name">
+        <p>Password :</p>
+        <input type="text" name="password" id="password">
+        <button>Submit</button>
+    </form>
+</div>
+
+<!-- include footer -->
+<%- include('include/_footer') %>
+<!-- /include footer -->
