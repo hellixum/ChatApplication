@@ -18,7 +18,7 @@ $(document).on("submit", "form", function(e) {
 
     if(message){
         console.log(username, message, reciever);
-        $(`ul[name="${reciever}"]`).append(`<li class="me">${username} : ${message}</li>`);
+        $(`ul[name="${reciever}"]`).append(`<li class="me"><strong>${username}</strong> : ${message}</li>`);
         socket.emit('chat message', {sender: username, message, reciever});
 
         $(`input[name="${reciever}"`).val("");
@@ -40,7 +40,7 @@ socket.on('chat message', function(data) {
     // console.log("chat message recieved "); 
     // console.log(data); 
 
-    $(`ul[name="${data.sender}"]`).append(`<li class="other">${data.sender} : ${data.message}</li>`);
+    $(`ul[name="${data.sender}"]`).append(`<li class="other"><strong>${data.sender}</strong> : ${data.message}</li>`);
     $("#chatMenu").animate({ scrollTop: $("#chatMenu")[0].scrollHeight}, 1000); 
 });
 
@@ -59,7 +59,7 @@ socket.on('new', function(data){
                         <input class="input" name="${user}" autocomplete="off" />
                         <button>Send</button>
                     </form>
-                    </ul>`
+                </ul>`
             )
             $(`ul[name="${user}"]`).hide(); 
 
@@ -77,7 +77,7 @@ socket.on('new', function(data){
                             <form class="form" action="" name="${user}">
                                 <input class="input" name="${user}" autocomplete="off" /><button>Send</button>
                             </form>
-                            </ul>`
+                        </ul>`
                     )
                     $(`ul[name="${user}"]`).hide(); 
                 }

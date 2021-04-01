@@ -2,16 +2,22 @@
 <%- include('include/_header') %>
 <!-- /include header -->
 
-<div id="signup">
+<div id="info">
     <h1>Signup</h1>
     <form action="/api/signup" method="POST">
-        <p>Name : </p>
-        <input type="text" name="name" id="name">
-        <p>Email :</p>
-        <input type="text" name="email" id="email">
-        <p>Password : </p>
-        <input type="text" name="password" id="password">
-        <button>Submit</button>
+        <div class="mb-3">
+            <label for="name" class="form-label">Username</label>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="email" id="email">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="text" class="form-control" name="password" id="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 

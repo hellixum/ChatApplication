@@ -2,14 +2,18 @@
 <%- include('include/_header') %>
 <!-- /include header -->
 
-<div id="login">
+<div id="info">
     <h1>Login</h1>
     <form action="/api/login" method="POST">
-        <p>Username :</p>
-        <input type="text" name="name" id="name">
-        <p>Password :</p>
-        <input type="text" name="password" id="password">
-        <button>Submit</button>
+        <div class="mb-3">
+            <label for="name" class="form-label">Username</label>
+            <input type="text" class="form-control" name="name" id="name">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="text" class="form-control" name="password" id="password">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
