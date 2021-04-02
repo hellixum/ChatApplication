@@ -1,12 +1,12 @@
-const queryString = window.location.search; 
-console.log(queryString); 
+var username = $("#un").text(); 
+$("#un").hide();
 
-const urlParams = new URLSearchParams(queryString); 
-var username = urlParams.get('name'); 
-console.log(username); 
+console.log(username);
+// console.log("name = "+ name); 
 
 var socket = io(); 
 var online_Users = [];
+
 
 socket.emit('new', {user: username}); 
 

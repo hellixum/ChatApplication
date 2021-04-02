@@ -3,9 +3,8 @@ exports.homeRoute = (req, res) => {
 }
 
 exports.landingPage = (req, res) => {
-    var name = req.query.name; 
-    var email = req.query.email;
-    res.render('landing', {name, email}); 
+    var name = req.payload.name; 
+    res.render('landing', {name}); 
 }
 
 exports.loginPage = (req, res) => {

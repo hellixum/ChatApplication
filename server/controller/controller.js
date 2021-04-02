@@ -52,17 +52,11 @@ exports.login = (req, res) => {
 
                         // console.log("acces token1 = "+process.env.ACCESS_TOKEN_SECRET);
                         let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-                            expiresIn: process.env.ACCESS_TOKEN_LIFE
+                            expiresIn: 86400
                         })
 
                         res.cookie("jwt", accessToken, {secure: true, httpOnly: true}); 
-                        res.redirect(url.format({
-                            pathname: "/landing", 
-                            query: {
-                                name : user.name,  
-                                email : user.email
-                            }
-                        }));
+                        res.redirect('/landing');
                     }else {
                         res.redirect('/');
                     }
