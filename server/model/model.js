@@ -14,6 +14,10 @@ var schema = new mongoose.Schema({
     password: {
         type: String, 
         required: true
+    }, 
+    img : {
+        data: Buffer, 
+        contentType: String
     }
 })
 

@@ -7,7 +7,6 @@ console.log(username);
 var socket = io(); 
 var online_Users = [];
 
-
 socket.emit('new', {user: username}); 
 
 

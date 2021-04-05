@@ -1,16 +1,33 @@
+var User_data = require('../model/model'); 
+
 exports.homeRoute = (req, res) => {
     res.render('index');
 }
 
 exports.landingPage = (req, res) => {
-    var name = req.payload.name; 
-    res.render('landing', {name}); 
+    var id = req.payload.id;
+    User_data.findById(id)
+        .then( user => {
+            if(!user){
+                res.status(404).send({message: "Not found user with id="+id})
+            }else{
+                // console.log(user); 
+                res.render('landing', {user}); 
+            }
+        })
+        .catch( err => {
+            res.status(500).send({
+                message: err.message || "No username found with given id"
+            })
+        })
+
+    // res.render('landing', {name}); 
 }
 
 exports.loginPage = (req, res) => {
     var token = req.cookies.jwt; 
-    console.log("LoginPage hit hua hai!!!"); 
-    console.log(token);
+    // console.log("LoginPage hit hua hai!!!"); 
+    // console.log(token);
     if(token){
         res.redirect('/landing'); 
         return; 

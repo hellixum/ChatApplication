@@ -4,7 +4,7 @@
 
 <div id="info">
     <h1>Signup</h1>
-    <form action="/api/signup" method="POST">
+    <form action="/api/signup" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="name" class="form-label">Username</label>
             <input type="text" class="form-control" name="name" id="name">
@@ -17,6 +17,13 @@
             <label for="password" class="form-label">Password</label>
             <input type="text" class="form-control" name="password" id="password">
         </div>
+        <div class="mb-3">
+            <label for="image">Upload Profile Picture</label>
+            <input type="file" id="image" name="image" value="" required>
+        </div>
+        <!-- <div class="mb-3">
+            
+        </div> -->
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

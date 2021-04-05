@@ -7,7 +7,7 @@
 #heading{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     width : 100vw; 
     height: 20vh;
     text-align: center;
@@ -58,6 +58,12 @@
     justify-content: space-between;
     height: 300px;
     text-align: center;
+}
+
+img {
+    max-width: 200px;
+    z-index: 999;
+    margin-left: 0px;
 }
 
 

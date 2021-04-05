@@ -2,6 +2,8 @@ var User_data = require('../model/model');
 const bcrypt = require('bcrypt'); 
 const url = require('url');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 
 exports.signup = (req, res) => {
     if(!req.body){
@@ -9,11 +11,18 @@ exports.signup = (req, res) => {
         return; 
     }
 
+    console.log(req.body);
     const user = new User_data({
         name: req.body.name, 
         email: req.body.email,
-        password: req.body.password 
+        password: req.body.password,
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '../../../uploads/' + req.file.filename)), 
+            contentType: 'image/png'
+        }
     })
+
+    fs.unlinkSync(path.join(__dirname + '../../../uploads/' + req.file.filename))
 
     user
         .save(user)
@@ -42,12 +51,12 @@ exports.login = (req, res) => {
             if(!user){
                 res.status(404).send({message: "Not found user with name="+name})
             }else{
-                console.log(user);
+                // console.log(user);
                 bcrypt.compare(password, user.password, (err, result) => {
                     if(result){
 
                         var payload = {
-                            name: user.name, 
+                            id: user._id, 
                         }
 
                         // console.log("acces token1 = "+process.env.ACCESS_TOKEN_SECRET);
@@ -68,4 +77,9 @@ exports.login = (req, res) => {
                 message: err.message || "No username found with given user"
             })
         })
+}
+
+exports.logout = (req, res) => {
+    res.cookie("jwt", "", {secure: true, httpOnly: true})
+    res.redirect('/');
 }
