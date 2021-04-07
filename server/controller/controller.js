@@ -19,7 +19,8 @@ exports.signup = (req, res) => {
         img: {
             data: fs.readFileSync(path.join(__dirname + '../../../uploads/' + req.file.filename)), 
             contentType: 'image/png'
-        }
+        },
+        
     })
 
     fs.unlinkSync(path.join(__dirname + '../../../uploads/' + req.file.filename))
@@ -82,4 +83,54 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
     res.cookie("jwt", "", {secure: true, httpOnly: true})
     res.redirect('/');
+}
+
+exports.addFriend = (req, res) => {
+    var userid = req.body.userid; 
+    var username = req.body.username;
+    var fname = req.body.fname; 
+
+    var uObject = {id: userid, name: username}; 
+    console.log(req.body);
+
+    User_data.findOne({name: fname})
+        .then((user) => {
+            console.log(user);
+            console.log(user.name + "found"); 
+            var fid = user._id;
+            // user.update({$push: {friends: uObject}});
+
+            User_data.updateOne(
+                {_id: fid}, 
+                {$push: { friends: uObject }},
+                (err, suc) => {
+                    if(err){
+                        console.log(err); 
+                    }else{
+                        console.log(suc); 
+                        console.log("added successfully");
+                    }
+                } 
+            )
+
+            var pObject = {id: fid, name: fname};
+            User_data.updateOne(
+                {_id: userid}, 
+                {$push: { friends: pObject }}, 
+                (err, suc) => {
+                    if(err){
+                        console.log(err); 
+                        res.status(404).send({message: err});
+                    }else{
+                        console.log(suc); 
+                        res.status(200).send({message: "Friend added successfully"});
+                    }
+                }
+            )
+
+        })
+        .catch(err => {
+            res.send("User not found"); 
+        })
+
 }

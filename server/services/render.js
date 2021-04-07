@@ -11,7 +11,8 @@ exports.landingPage = (req, res) => {
             if(!user){
                 res.status(404).send({message: "Not found user with id="+id})
             }else{
-                // console.log(user); 
+                // console.log(JSON.stringify(user.friends)); 
+                res.cookie("friends", JSON.stringify(user.friends), {secure: true, httpOnly: false}); 
                 res.render('landing', {user}); 
             }
         })

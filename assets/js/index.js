@@ -1,45 +1,58 @@
-var username = $("#un").text(); 
-$("#un").hide();
+var userid = $("#uid").text(); 
+$("#uid").hide();
+var username = $("#uname").text(); 
+$("#uname").hide(); 
 
-console.log(username);
-// console.log("name = "+ name); 
+console.log(userid);
+console.log("name = "+ username); 
 
 var socket = io(); 
-var online_Users = [];
+var friends_status = []; 
+var friend_name = []; 
 
-socket.emit('new', {user: username}); 
+allcookie = decodeURIComponent(document.cookie);
+friends = JSON.parse(allcookie.substring(8));
+console.log('cookies are');
+console.log(allcookie);
+for(var i = 0; i < friends.length ; i++){
+    friends_status[friends[i].id] = ['Offline'];  
+    friend_name[friends[i].id] = friends[i].name; 
+}
+
+socket.emit('new', {userid: userid}); 
+$(".messages").hide();
 
 
-$(document).on("submit", "form", function(e) {
+$(document).on("submit", ".form", function(e) {
     e.preventDefault();
-    reciever = $(this).attr("name"); 
-    var message = $(`input[name="${reciever}"`).val(); 
+    reciever_id = $(this).attr("uid"); 
+    var message = $(`input[uid="${reciever_id}"`).val(); 
 
     if(message){
-        console.log(username, message, reciever);
-        $(`ul[name="${reciever}"]`).append(`<li class="me"><strong>${username}</strong> : ${message}</li>`);
-        socket.emit('chat message', {sender: username, message, reciever});
+        console.log(username, message, friend_name[reciever_id]);
+        $(`ul[uid="${reciever_id}"]`).append(`<li class="me"><strong>${username}</strong> : ${message}</li>`);
+        socket.emit('chat message', {sender_id: userid, message, reciever_id});
 
-        $(`input[name="${reciever}"`).val("");
+        $(`input[uid="${reciever_id}"`).val("");
     }
 }) 
 
 
 $(document).on("click", "li.online_data", function() {
     console.log("clicked");
-    console.log($(this).attr("name"))
-    var reciever = ($(this).attr("name"))
+    console.log($(this).attr("uid"))
+    var user_id = ($(this).attr("uid"))
 
-    $('ul[class="messages"]').hide(); 
-    $(`ul[name="${reciever}"]`).show();
+    $('.messages').hide(); 
+    $(`ul[uid="${user_id}"]`).show();
 
 })
 
 socket.on('chat message', function(data) {
-    // console.log("chat message recieved "); 
-    // console.log(data); 
+    console.log("chat message recieved "); 
+    console.log(data); 
 
-    $(`ul[name="${data.sender}"]`).append(`<li class="other"><strong>${data.sender}</strong> : ${data.message}</li>`);
+    $(`ul[uid="${data.sender_id}"]`).append(`<li class="other"><strong>${friend_name[data.sender_id]}</strong> : ${data.message}</li>`);
     $("#chatMenu").animate({ scrollTop: $("#chatMenu")[0].scrollHeight}, 1000); 
 });
 
@@ -47,57 +60,25 @@ socket.on('chat message', function(data) {
 
 socket.on('new', function(data){ 
         var user = data.single;
-        if(user !== username){
-            online_Users.push(user); 
-            console.log(online_Users);
-            $("#userslist").append(`<li class="online_data" name="${user}">${user}</li>`);
-            $("#chatMenu").prepend(
-                `<ul class="messages" name="${user}" class="messages">
-                    <h1>${user}</h1>
-                    <form class="form" action="" name="${user}">
-                        <input class="input" name="${user}" autocomplete="off" />
-                        <button>Send</button>
-                    </form>
-                </ul>`
-            )
-            $(`ul[name="${user}"]`).hide(); 
-
-        }else{
-            $('#userslist').empty(); 
-            for(var i=0; i<data.users.length; i++){
-            var user = data.users[i];
-                if(user !== username){
-                    online_Users.push(user); 
-                    console.log(online_Users);
-                    $("#userslist").append(`<li class="online_data" name="${user}">${user}</li>`);
-                    $("#chatMenu").prepend(
-                        `<ul class="messages" name="${user}" class="messages">
-                            <h1>${user}</h1>
-                            <form class="form" action="" name="${user}">
-                                <input class="input" name="${user}" autocomplete="off" /><button>Send</button>
-                            </form>
-                        </ul>`
-                    )
-                    $(`ul[name="${user}"]`).hide(); 
-                }
-            }
-        
+        for(var i=0; i<data.users.length; i++){
+            if(data.users[i] == userid)
+                continue;
+            var uid = data.users[i];
+            friends_status[uid] = 'Online'; 
+            $(`li[uid="${uid}"] p`).text('Online')
         }
-    console.log(data.single + "connected now !!!!");
-    // if(data.single !== username){
-    //     $("#chatMenu").prepend(`<ul id="${data.single}" class="messages"></ul>`)
-    // }
 })
 
 
 
 socket.on('dis', function(data){
 
-    online_users = online_Users.filter((val) => {
-        return val != data.single; 
-    })
-    $(`li[name="${data.single}"]`).remove();
-    $(`ul[name="${data.single}"]`).remove();
+    if(data.single in friends_status){
+        friends_status[data.single] = 'Offline'; 
+        $(`li[uid="${uid}"] p`).text('Online')
+    }
+    // $(`li[uid="${data.single}"]`).remove();
+    // $(`ul[uid="${data.single}"]`).remove();
     // $(`#${data.single}`).remove();
 
 })

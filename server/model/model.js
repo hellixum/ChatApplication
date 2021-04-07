@@ -18,7 +18,8 @@ var schema = new mongoose.Schema({
     img : {
         data: Buffer, 
         contentType: String
-    }
+    }, 
+    friends: [{id: String, name: String}]
 })
 
 schema.pre('save', async function(next){
@@ -30,6 +31,10 @@ schema.pre('save', async function(next){
     }catch(err){
         next(err); 
     }
+})
+
+const Message = new mongoose.Schema({
+
 })
 
 const User_data = mongoose.model('user_data', schema); 

@@ -16,26 +16,49 @@
         <a href="/api/logout"><button type="submit" class="btn btn-primary">Logout</button></a>
     </div>
     <div id="mainContent">
+        <div id ="uid"><%= user._id %></div>
+        <div id ="uname"><%= user.name %></div>
 
-    
-    <div id ="un"><%= user.name %></div>
-    <h1 style="height: 10%; text-align: center;">Hello <%= user.name %>!!!! Welcome to ChatCord</h1>
-    <!-- <img src="data:image/<%=user.img.contentType%>;base64, <%=user.img.data.toString('base64')%>"> -->
+        <div id="addition" style="display: flex;">
+            <h1 style="height: 100%; text-align: center;">Hello <%= user.name %>!!!! Welcome to ChatCord</h1>
+            <form action="/api/addFriend" method="POST" id="addfriend">
+                <input type="text" value="<%= user._id %>" name="userid" style="visibility: hidden;">
+                <input type="text" value="<%= user.name %>" name="username" style="visibility: hidden;">
+                <label for="fname">Find User: </label>
+                <input type="text" name="fname">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
 
-    <div id="onlineUsers">
-        <h1>User Online</h1>
-        <ul id="userslist"> 
-            
-        </ul>
-    </div>
-    <div id="chatMenu">
+        <div id="onlineUsers">
+            <h1>User Online</h1>
+            <ul id="userslist"> 
+                <% for(var i=0; i < user.friends.length; i++) { %>
+                    <li class="online_data" uid="<%= user.friends[i].id %>">
+                        <%=user.friends[i].name %>
+                        <p>Offline</p>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
 
-    </div>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="/js/index.js"></script>
-    
+        <div id="chatMenu">
+            <% for(var i=0; i < user.friends.length; i++) { %>
+                <ul class="messages" uid="<%= user.friends[i].id %>">
+                    <h1><%= user.friends[i].name %></h1>
+                    <form class="form" action="" uid="<%= user.friends[i].id %>">
+                        <input class="input" uid="<%= user.friends[i].id %>" autocomplete="off" />
+                        <button>Send</button>
+                    </form>
+                </ul>
+            <% } %>
+        </div>
+        
+        
+        
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="/js/index.js"></script>
 
 <!-- include footer -->
 <%- include('include/_footer') %>

@@ -18,5 +18,5 @@ route.get('/landing',auth.auth, services.landingPage);
 route.post('/api/signup', fileUpload.upload.single('image'), controller.signup)
 route.post('/api/login', controller.login)
 route.get('/api/logout', controller.logout)
-
+route.post('/api/addFriend', controller.addFriend)
 module.exports = route;
