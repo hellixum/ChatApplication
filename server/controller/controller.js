@@ -19,8 +19,7 @@ exports.signup = (req, res) => {
         img: {
             data: fs.readFileSync(path.join(__dirname + '/../../uploads/' + req.file.filename)), 
             contentType: 'image/png'
-        },
-        
+        }
     })
 
     fs.unlinkSync(path.join(__dirname + '../../../uploads/' + req.file.filename))
@@ -98,11 +97,12 @@ exports.addFriend = (req, res) => {
             console.log(user);
             console.log(user.name + "found"); 
             var fid = user._id;
-            // user.update({$push: {friends: uObject}});
+            // user.update({$push: {friends: uObject}})
+            //     .save()
 
             User_data.updateOne(
                 {_id: fid}, 
-                {$push: { friends: uObject }},
+                {$push: { friends: userid }},
                 (err, suc) => {
                     if(err){
                         console.log(err); 
@@ -113,10 +113,9 @@ exports.addFriend = (req, res) => {
                 } 
             )
 
-            var pObject = {id: fid, name: fname};
             User_data.updateOne(
                 {_id: userid}, 
-                {$push: { friends: pObject }}, 
+                {$push: { friends: fid }}, 
                 (err, suc) => {
                     if(err){
                         console.log(err); 

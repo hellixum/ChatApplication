@@ -19,7 +19,9 @@ var schema = new mongoose.Schema({
         data: Buffer, 
         contentType: String
     }, 
-    friends: [{id: String, name: String}]
+    friends : [{
+        type: mongoose.Schema.ObjectId, ref: 'User_data'
+    }]  
 })
 
 schema.pre('save', async function(next){
@@ -33,10 +35,14 @@ schema.pre('save', async function(next){
     }
 })
 
-const Message = new mongoose.Schema({
+// var friend_schema = mongoose.Schema({
+//     user: {
+//         type : mongoose.Schema.Types.ObjectId, 
+//         ref : 'User_data',  
+//     }
+// })
 
-})
-
-const User_data = mongoose.model('user_data', schema); 
+const User_data = mongoose.model('User_data', schema); 
+// const Friends = mongoose.model('friends', friend_schema); 
 
 module.exports = User_data; 

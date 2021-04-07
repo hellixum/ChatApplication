@@ -7,12 +7,17 @@ exports.homeRoute = (req, res) => {
 exports.landingPage = (req, res) => {
     var id = req.payload.id;
     User_data.findById(id)
+        .populate('friends')
         .then( user => {
             if(!user){
                 res.status(404).send({message: "Not found user with id="+id})
             }else{
                 // console.log(JSON.stringify(user.friends)); 
-                res.cookie("friends", JSON.stringify(user.friends), {secure: true, httpOnly: false}); 
+                var friends =[]; 
+                for(var i = 0; i<user.friends.length; i++){
+                    friends.push(user.friends[i].name);
+                }
+                res.cookie("friends", JSON.stringify(friends), {secure: true, httpOnly: false}); 
                 res.render('landing', {user}); 
             }
         })

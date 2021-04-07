@@ -13,7 +13,7 @@ const io = require('socket.io')(http);
 dotenv.config({path: 'config.env'})
 const PORT = process.env.PORT || 8080
 
-// app.use(morgan('tiny')); 
+app.use(morgan('tiny')); 
 
 connectDB(); 
 
