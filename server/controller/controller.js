@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
         email: req.body.email,
         password: req.body.password,
         img: {
-            data: fs.readFileSync(path.join(__dirname + '../../../uploads/' + req.file.filename)), 
+            data: fs.readFileSync(path.join(__dirname + '/../../uploads/' + req.file.filename)), 
             contentType: 'image/png'
         },
         
