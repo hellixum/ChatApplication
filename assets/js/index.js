@@ -15,7 +15,7 @@ friends = JSON.parse(allcookie.substring(8));
 console.log('cookies are');
 console.log(allcookie);
 for(var i = 0; i < friends.length ; i++){
-    friends_status[friends[i].id] = ['Offline'];  
+    friends_status[friends[i].id] = 'Offline';  
     friend_name[friends[i].id] = friends[i].name; 
 }
 
@@ -74,8 +74,9 @@ socket.on('new', function(data){
 socket.on('dis', function(data){
 
     if(data.single in friends_status){
+        console.log(friend_name[data.single] + "disconnected!!!!");
         friends_status[data.single] = 'Offline'; 
-        $(`li[uid="${uid}"] p`).text('Online')
+        $(`li[uid="${data.single}"] p`).text('Offline');
     }
     // $(`li[uid="${data.single}"]`).remove();
     // $(`ul[uid="${data.single}"]`).remove();
