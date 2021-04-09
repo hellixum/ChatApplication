@@ -25,6 +25,7 @@ module.exports = function(io){
     
             socket.userid = data.userid;  
             users_online[socket.userid] = socket;
+            // console.log(users_online);
             
             io.emit('new', {users: Object.keys(users_online), single: socket.userid});
         })

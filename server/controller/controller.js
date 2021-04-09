@@ -102,7 +102,7 @@ exports.addFriend = (req, res) => {
 
             User_data.updateOne(
                 {_id: fid}, 
-                {$push: { friends: userid }},
+                {$push: { friends: {user: userid} }},
                 (err, suc) => {
                     if(err){
                         console.log(err); 
@@ -115,7 +115,7 @@ exports.addFriend = (req, res) => {
 
             User_data.updateOne(
                 {_id: userid}, 
-                {$push: { friends: fid }}, 
+                {$push: { friends: {user: fid}}}, 
                 (err, suc) => {
                     if(err){
                         console.log(err); 

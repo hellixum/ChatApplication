@@ -36,8 +36,8 @@
             <h1>User Online</h1>
             <ul id="userslist"> 
                 <% for(var i=0; i < user.friends.length; i++) { %>
-                    <li class="online_data" uid="<%= user.friends[i]._id %>">
-                        <%=user.friends[i].name %>
+                    <li class="online_data" uid="<%= user.friends[i].user._id %>">
+                        <%=user.friends[i].user.name %>
                         <p>Offline</p>
                     </li>
                 <% } %>
@@ -46,10 +46,10 @@
 
         <div id="chatMenu">
             <% for(var i=0; i < user.friends.length; i++) { %>
-                <ul class="messages" uid="<%= user.friends[i]._id %>">
-                    <h1><%= user.friends[i].name %></h1>
-                    <form class="form" action="" uid="<%= user.friends[i]._id %>">
-                        <input class="input" uid="<%= user.friends[i]._id %>" autocomplete="off" />
+                <ul class="messages" uid="<%= user.friends[i].user._id %>">
+                    <h1><%= user.friends[i].user.name %></h1>
+                    <form class="form" action="" uid="<%= user.friends[i].user._id %>">
+                        <input class="input" uid="<%= user.friends[i].user._id %>" autocomplete="off" />
                         <button>Send</button>
                     </form>
                 </ul>

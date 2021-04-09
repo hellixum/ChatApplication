@@ -28,6 +28,12 @@ $(document).on("submit", ".form", function(e) {
     reciever_id = $(this).attr("uid"); 
     var message = $(`input[uid="${reciever_id}"`).val(); 
 
+    if(friends_status[reciever_id] == 'Offline'){
+        alert("User is Offline you cannot send message");
+        $(`input[uid="${reciever_id}"`).val("");
+        return;
+    }
+
     if(message){
         console.log(username, message, friend_name[reciever_id]);
         $(`ul[uid="${reciever_id}"]`).append(`<li class="me"><strong>${username}</strong> : ${message}</li>`);

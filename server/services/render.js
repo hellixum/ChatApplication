@@ -7,18 +7,23 @@ exports.homeRoute = (req, res) => {
 exports.landingPage = (req, res) => {
     var id = req.payload.id;
     User_data.findById(id)
-        .populate('friends')
-        .then( user => {
-            if(!user){
+        .populate({
+            path: 'friends', 
+            populate: {
+                path: 'user'
+            }
+        })
+        .then( data => {
+            if(!data){
                 res.status(404).send({message: "Not found user with id="+id})
             }else{
-                // console.log(JSON.stringify(user.friends)); 
                 var friends =[]; 
-                for(var i = 0; i<user.friends.length; i++){
-                    friends.push(user.friends[i].name);
+                for(var i = 0; i<data.friends.length; i++){
+                    var obj = {id: data.friends[i].user._id, name: data.friends[i].user.name}; 
+                    friends.push(obj);
                 }
                 res.cookie("friends", JSON.stringify(friends), {secure: true, httpOnly: false}); 
-                res.render('landing', {user}); 
+                res.render('landing', {user: data}); 
             }
         })
         .catch( err => {
@@ -26,8 +31,6 @@ exports.landingPage = (req, res) => {
                 message: err.message || "No username found with given id"
             })
         })
-
-    // res.render('landing', {name}); 
 }
 
 exports.loginPage = (req, res) => {

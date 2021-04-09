@@ -20,7 +20,8 @@ var schema = new mongoose.Schema({
         contentType: String
     }, 
     friends : [{
-        type: mongoose.Schema.ObjectId, ref: 'User_data'
+        user:  { type: mongoose.Schema.ObjectId, ref: 'User_data' }, 
+        messages: []
     }]  
 })
 
